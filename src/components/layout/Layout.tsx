@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import SideBar from "../sidebar/SideBar";
+// import SideBar from "../sidebar/SideBar";
 
 interface Props {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ const Layout = ({ children }: Props) => {
 
   return (
     <LayoutWrapper>
-        <SideBar />
+        {/* <SideBar /> */}
         {children}
     </LayoutWrapper>
   );
