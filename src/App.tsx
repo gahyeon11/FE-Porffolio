@@ -10,15 +10,19 @@ import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary';
 function App() {
   const routerList = [
     {
-      path: "/home",
-      element: <Home />,
-      errorElement: <ErrorBoundary />,
+      path: "/",
+      element: (
+        <ErrorBoundary>
+          <Home />
+        </ErrorBoundary>
+      ),
     },
     {
       path: "*",
       element: <NotFound />,
-    }
+    },
   ];
+  
 
   const router = createBrowserRouter(
     routerList.map((item) => {
