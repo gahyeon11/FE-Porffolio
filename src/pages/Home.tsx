@@ -1,79 +1,108 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import React, { useRef, useState } from "react";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import useIntersectionObserver from "../hooks/useIntersectionObserver";
 
 function Home() {
+  const mainRef = useRef(null);
+  const isIntersecting = useIntersectionObserver(mainRef);
+
   const [showNewText, setShowNewText] = useState(false);
 
   const textLines = [
-    { text: "안녕하세요.", x: -1000, y: -40, size: "32px" },
-    { text: "프론트엔드 개발자", x: 1000, y: 60, size: "50px", isMoving: true },
-    { text: "김가현입니다.", x: -1000, y: 110, size: "48px" },
+    { text: "안녕하세요.", x: 0, y: -40, size: "20px" },
+    { text: "프론트엔드 개발자", x: 0, y: 60, size: "32px", isMoving: true, marginLeft: "35px" }, // marginLeft 추가
+    { text: "김가현입니다.", x: 0, y: 110, size: "25px" , marginLeft: "8px"},
   ];
 
   return (
-    <HomeStyle>
-      {textLines.map((line, index) => (
-        <AnimatedText
-          key={index}
-          initial={{ opacity: 0, x: line.x, y: line.y, scale: 0.1 }}
-          animate={{
-            opacity: 1,
-            x: showNewText && line.isMoving ? 250 : 0, // showNewText가 true일 때만 이동
-            y: 0,
-            scale: 1.5,
-          }}
-          transition={{ type: "spring", stiffness: 150, damping: 15, delay: index * 0.5 }}
-          size={line.size}
-          onAnimationComplete={() => index === 1 && setShowNewText(true)}
-        >
-          {line.text}
-        </AnimatedText>
-      ))}
-
-      {/* showNewText가 true일 때만 새로운 텍스트를 나타냄 */}
-      {showNewText && (
-        <ReplacementText
-          initial={{ opacity: 0, x: -1000 }}
-          animate={{ opacity: 1, x: -120 }}
-          transition={{ type: "spring", stiffness: 100, damping: 15, delay: 1  }}
-        >
-          끊임없이 발전하는
-        </ReplacementText>
-      )}
-    </HomeStyle>
+    <motion.div
+      ref={mainRef}
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: isIntersecting ? 1 : 0, y: isIntersecting ? 0 : 50 }}
+      transition={{ duration: 0.5 }}
+      style={{ overflowY: "hidden", height: "100vh" }}
+    >
+      <HomeStyle>
+        {textLines.map((line, index) => (
+          <AnimatedTextContainer key={index}>
+            <AnimatedText
+              initial={{ opacity: 0, x: line.x, y: line.y, scale: 0.1 }}
+              animate={{
+                opacity: 1,
+                x: showNewText && line.isMoving ? 280 : 0, // 오른쪽으로 이동
+                y: 0,
+                scale: 1.5,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 150,
+                damping: 15,
+                delay: index * 0.5,
+              }}
+              size={line.size}
+              style={{ marginLeft: line.marginLeft || 0 }} // marginLeft 적용
+              onAnimationComplete={() => index === 1 && setShowNewText(true)}
+            >
+              {line.text}
+            </AnimatedText>
+            {line.isMoving && showNewText && (
+              <ReplacementText
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 15,
+                  delay: 0.5,
+                }}
+              >
+                끊임없이 발전하는
+              </ReplacementText>
+            )}
+          </AnimatedTextContainer>
+        ))}
+      </HomeStyle>
+    </motion.div>
   );
 }
 
-const HomeStyle = styled.div`
+export default Home;
+
+const HomeStyle = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  gap: 10px;
   align-items: center;
   justify-content: center;
-  padding: 20px;
   height: 100vh;
-  text-align: center;
+  overflow: hidden;
+  padding: 20px;
+  gap: 30px;
+  margin: 0 auto;
 `;
 
-const AnimatedText = styled(motion.div)`
-  font-size: ${({ size }) => size};
-  font-weight: bold;
-  text-align: left;
+const AnimatedTextContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
   max-width: 500px;
-  margin-bottom: 20px;
+  position: relative;
+  text-align: left;
 `;
 
-const ReplacementText = styled(motion.div)`
-  font-size: 30px;
+const AnimatedText = styled(motion.div)<{ size: string }>`
+  font-size: ${({ size }) => size};
+  font-weight: bold;
+  display: inline-block;
+  min-width: fit-content;
+  text-align: left;
+`;
+
+const ReplacementText = styled(motion.span)`
+  font-size: 32px;
   font-weight: bold;
   color: ${({ theme }) => theme.color.primary};
-  text-align: left;
   position: absolute;
-  left: calc(50% - 250px); /* 중앙 정렬을 위한 위치 조정 */
-  top: 50%; /* 텍스트 위치를 조정 */
-  transform: translateY(-50%); /* 수직 중앙 정렬 */
+  left: -27px;
 `;
-
-export default Home;
