@@ -45,26 +45,27 @@ const SectionContainer = styled(motion.div)`
 const Title = styled.h2`
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 `;
 
 const EducationContainer = styled.div`
   display: flex;
-  gap: 20px;
+  gap: 60px;
   justify-content: center;
 `;
 
 const EducationCard = styled.div`
-  background: #f3f3f3;
-  padding: 20px 30px;
-  border-radius: 12px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background: #DAD7D7;
+  padding: 30px 80px;
+  border-radius: 20px;
+  box-shadow: 2px 6px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
   min-width: 150px;
 
   span {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
     margin-bottom: 5px;
     color: #333;
   }
