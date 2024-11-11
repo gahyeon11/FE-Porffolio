@@ -1,204 +1,168 @@
-import React from "react";
-import styled from "styled-components";
-import prj3 from "../assets/img/prj3.png";
-import prj3_2 from "../assets/img/prj3-2.png";
-import prj4_1 from "../assets/img/prj4-1.png";
-import prj4_2 from "../assets/img/prj4-2.png";
+import React, { useEffect, useRef } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
+import prj2 from "../assets/img/prj2.png";
+import {
+  ProjectContent,
+  ImageContainer,
+  ProjectImage,
+  ProjectTitle,
+  ProjectDate,
+  IconContainer,
+  TextContainer,
+  DetailTitle,
+  Description,
+  Details,
+  DetailItem,
+  TechStack,
+  Tech,
+} from "../styles/ProjectsStyles";
 
+const Project2 = () => {
+  const controls = useAnimation();
+  const ref = useRef(null);
 
-const ProjectsPart2 = () => {
-    return (
-      <MainContainer>
-        <SectionContainer>
-          {/* MeloDiary Project */}
-          <ProjectContent>
-            <ImageContainer>
-              <ProjectImage src={prj3} alt="MeloDiary" />
-              <ProjectImage src={prj3_2} alt="MeloDiary Additional" />
-              <ProjectTitle>MeloDiary</ProjectTitle>
-              <ProjectDate>2024.07.29 - 2024.08.29</ProjectDate>
-            </ImageContainer>
-            <TextContainer>
-              <Description>
-                MeloDiary는 매일 일기를 작성하며 그날의 기분을 음악과 이모지로 표현하고, 친구와 일기 및 음악 목록을 공유할 수 있는 웹 서비스입니다.
-                사용자는 그날의 이미지, 기분, 배경, 음악 등을 활용해 일기를 작성할 수 있습니다.
-              </Description>
-              <Details>
-                <DetailItem>1. 전체적인 웹 페이지 디자인 및 UX/UI 구성</DetailItem>
-                <DetailItem>2. 사용자 맞춤형 일기 작성 기능 구현</DetailItem>
-                <DetailItem>3. 친구와 일기 공유 및 음악 플레이리스트 연동</DetailItem>
-                <DetailItem>4. 성능 최적화 및 반응형 디자인 적용</DetailItem>
-              </Details>
-              <TechStack>
-                <Tech>MYSQL</Tech>
-                <Tech>NODE.JS</Tech>
-                <Tech>EXPRESS</Tech>
-                <Tech>JavaScript</Tech>
-                <Tech>HTML</Tech>
-                <Tech>CSS</Tech>
-                <Tech>zustand</Tech>
-                <Tech>Axios</Tech>
-                <Tech>REACT</Tech>
-                <Tech>StyledComponent</Tech>
-                <Tech>GIT</Tech>
-                <Tech>GITHUB</Tech>
-                <Tech>FIGMA</Tech>
-              </TechStack>
-            </TextContainer>
-          </ProjectContent>
-  
-          {/* Bunny Project */}
-          <ProjectContent>
-            <ImageContainerBunny>
-              <ImageRow>
-                <ProjectImageBunny src={prj4_1} alt="Bunny" />
-                <ProjectImageBunny src={prj4_2} alt="Bunny Additional" />
-              </ImageRow>
-              <ProjectTitle>Bunny</ProjectTitle>
-              <ProjectDate>2024.09 - 진행중</ProjectDate>
-            </ImageContainerBunny>
-            <TextContainer>
-              <Description>
-                Bunny는 근무시간과 수입을 그래프로 시각화하여 사용자가 실시간으로 수입을 확인할 수 있도록 돕는 애플리케이션입니다. 사용자에게 실시간 수입 추적과 소비 관리 기능을 제공합니다.
-              </Description>
-              <Details>
-                <DetailItem>1. 전체 페이지 UI 및 그래프 기능 구현</DetailItem>
-                <DetailItem>2. 사용자 맞춤형 수입/지출 분석 기능</DetailItem>
-                <DetailItem>3. 모바일 최적화 및 반응형 디자인 적용</DetailItem>
-              </Details>
-              <TechStack>
-                <Tech>MYSQL</Tech>
-                <Tech>JAVA</Tech>
-                <Tech>HTML</Tech>
-                <Tech>CSS</Tech>
-                <Tech>ReactNative</Tech>
-                <Tech>TypeScript</Tech>
-                <Tech>GIT</Tech>
-                <Tech>GITHUB</Tech>
-                <Tech>FIGMA</Tech>
-              </TechStack>
-            </TextContainer>
-          </ProjectContent>
-        </SectionContainer>
-      </MainContainer>
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          controls.start("visible");
+        }
+      },
+      { threshold: 0.3 }
     );
-  };
-  
-  export default ProjectsPart2;
-  
-  const MainContainer = styled.div`
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  `;
-  
-  const SectionContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 100%;
-    max-width: 1200px;
-  `;
-  
-  const ProjectContent = styled.div`
-    display: flex;
-    align-items: flex-start;
-    background: #f9f9f9;
-    padding: 10px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    gap: 20px;
-  `;
-  
-  const ImageContainer = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  `;
-  
-  const ImageContainerBunny = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-    margin: 10px;
-  `;
-  
-  const ImageRow = styled.div`
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-    height: 200px;
-  `;
-  
-  const ProjectImage = styled.img`
-    width: 100%;
-    max-width: 200px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  `;
-  
-  const ProjectImageBunny = styled.img`
-    width: 100px;
-    height: auto;
-    border-radius: 8px;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
-  `;
-  
-  const ProjectTitle = styled.h3`
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    margin-top: 8px;
-    text-align: center;
-  `;
-  
-  const ProjectDate = styled.span`
-    font-size: 12px;
-    color: #999;
-    text-align: center;
-  `;
-  
-  const TextContainer = styled.div`
-    flex: 2;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  `;
-  
-  const Description = styled.p`
-    font-size: 14px;
-    color: #555;
-    line-height: 1.5;
-  `;
-  
-  const Details = styled.ul`
-    margin: 10px 0;
-    padding-left: 20px;
-    font-size: 14px;
-    color: #444;
-  `;
-  
-  const DetailItem = styled.li`
-    margin-bottom: 4px;
-  `;
-  
-  const TechStack = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-  `;
-  
-  const Tech = styled.span`
-    background-color: #e0e0e0;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    color: #333;
-  `;
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => observer.disconnect();
+  }, [controls]);
+
+  return (
+    <ProjectContent
+      as={motion.div}
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+      }}
+    >
+      <ImageContainer>
+        <ProjectImage src={prj2} alt="Project 2" />
+        <ProjectTitle>DEVSIMPLEQUIZ</ProjectTitle>
+        <ProjectDate>
+          2024.06.24 - 2024.07.16
+          <IconContainer>
+            <a
+              href="https://github.com/DevSimpleQuiz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaGithub />
+            </a>
+            <a
+              href="https://devsimplequiz.site/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaExternalLinkAlt />
+            </a>
+          </IconContainer>
+        </ProjectDate>
+      </ImageContainer>
+      <TextContainer>
+        <DetailTitle>프로젝트 설명</DetailTitle>
+        <Description>
+              심심할 때 재미있게 두뇌를 자극하며 즐길 수 있는 어휘 퀴즈 웹
+              사이트입니다. 사용자는 약 3500개의 랜덤한 한국어 어휘 퀴즈를 풀며
+              여가시간을 활용할 수 있습니다. 10개씩 세트로 구성 된 퀴즈와 오답이
+              나올 때 까지 무한으로 즐길 수 있는 퀴즈 두가지 테마가 제공되며,
+              로그인 한 사용자의 경우 랭킹 시스템도 이용 가능하도록
+              구현되었습니다.
+            </Description>
+            <DetailTitle>프로젝트 기여 내용</DetailTitle>
+            <Details>
+              <DetailItem>
+                1. 전반적인 페이지 디자인 및 UI/기능 구현 - 사용자가 직관적이고
+                쉽게 사이트를 이용할 수 있도록 사용자 경험을 중점적으로 고려하여
+                전체 페이지의 인터페이스 디자인을 담당하였습니다.
+              </DetailItem>
+              <DetailItem>
+                2. 메인 페이지 - 어휘 퀴즈 사이트의 첫인상을 결정짓는 메인
+                페이지의 UI와 기능을 설계하고 구현하였습니다. 사용자들이 쉽게
+                퀴즈에 접근할 수 있도록 직관적이고 깔끔한 디자인을 적용하였으며,
+                퀴즈 주제 선택 등 주요 기능을 명확하게 배치하여 편리한 사용자
+                경험을 제공했습니다. 또한 상단에 베너를 크게 배치하여 다양한
+                정보를 효율적으로 보일 수 있도록 하였습니다.
+              </DetailItem>
+              <DetailItem>
+                3. 퀴즈 결과 페이지 - 사용자가 퀴즈를 완료한 후, 결과를 한눈에
+                확인할 수 있는 UI를 설계하였습니다. 퀴즈 점수, 맞춘 단어 수,
+                틀린 단어 등에 대한 정보를 시각적으로 쉽게 파악할 수 있도록
+                구성하였으며, 결과에 따라 랭킹 시스템과 연결되는 기능을
+                구현하였습니다.
+              </DetailItem>
+              <DetailItem>
+                4. 마이페이지 - 사용자가 자신의 퀴즈 기록 및 랭킹, 설정 등을
+                확인하고 관리할 수 있는 마이페이지 UI를 구현하였습니다. 사용자
+                맞춤형 정보를 제공하기 위해 직관적인 인터페이스와 기능을
+                배치하였으며, 사용자의 퀴즈 통계 및 정보 관리 기능을
+                추가하였습니다.
+              </DetailItem>
+              <DetailItem>
+                5. 비밀번호 재설정 페이지 - 사용자가 비밀번호를 재설정할 수 있는
+                페이지를 구현하였습니다. 비밀번호 재설정 과정이 복잡하지 않도록
+                직관적이고 단순한 UI를 설계하고, 사용자 경험을 개선하기 위한
+                로직을 포함하였습니다.
+              </DetailItem>
+              <DetailItem>
+                6. 상태 관리 - 사용자 로그인 상태를 관리하기 위해 Zustand를
+                활용한 상태 관리 로직을 구현하였습니다. 상태 관리를 통해 각
+                페이지가 사용자별로 적절한 데이터를 표시할 수 있도록 하여 일관된
+                사용자 경험을 제공하였습니다.
+              </DetailItem>
+              <DetailItem>
+                7.에러 핸들링 - 예상치 못한 에러 발생 시에도 사용자 경험이
+                방해받지 않도록 Error Boundary 적용하여 방어 로직을
+                구현하였습니다. 에러가 발생하면 사용자에게 적절한 알림을
+                제공하고, 앱이 중단되지 않도록 에러 처리 방식을 설계하였습니다.
+              </DetailItem>
+              <DetailItem>
+                8. 성능 최적화 - Lighthouse 를 사용하여 페이지 성능을 분석하고,
+                이를 기반으로 최적화 작업을 수행하였습니다. 페이지 로딩 속도,
+                인터랙션 성능 등을 향상시켜 사용자 경험을 개선하고, 최종적으로
+                성능 점수를 높이는 결과를 도출하였습니다.
+              </DetailItem>
+            </Details>
+            <DetailTitle>STACK</DetailTitle>
+            <TechStack>
+              <div>
+                <Tech>MYSQL</Tech>
+                <Tech>Node.JS</Tech>
+                <Tech>Express</Tech>
+                <Tech>JavaScript</Tech>
+              </div>
+              <div>
+                <Tech>HTML</Tech>
+                <Tech>CSS</Tech>
+                <Tech>REACT</Tech>
+                <Tech>TypeScript</Tech>
+              </div>
+              <div>
+                <Tech>Zustand</Tech>
+                <Tech>Axios</Tech>
+                <Tech>Styled-Component</Tech>
+              </div>
+              <div>
+                <Tech>GIT</Tech>
+                <Tech>GITHUB</Tech>
+                <Tech>FIGMA</Tech>
+              </div>
+            </TechStack>
+          </TextContainer>
+        </ProjectContent>
+  );
+};
+
+export default Project2;

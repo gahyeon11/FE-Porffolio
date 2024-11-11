@@ -4,9 +4,11 @@ import Home from "./Home";
 import AboutMe1 from "./AboutMe1";
 import AboutMe2 from "./AboutMe2";
 import AboutMe3 from "./AboutMe3";
-import SideBar from "../components/sidebar/SideBar";
-import Projects1 from "./Projects1";
-import Projects2 from "./Projects2";
+import Project1 from "./Project1";
+import Project2 from "./Projects2";
+import Project3 from "./Project3";
+import Project4 from "./Project4";
+import Contact from "./Contact";
 
 function MainPage() {
   return (
@@ -24,10 +26,19 @@ function MainPage() {
         <AboutMe3 />
       </Section>
       <Section id="project">
-        <Projects1 />
+        <Project1/>
       </Section>
       <Section id="project">
-        <Projects2 />
+        <Project2 />
+      </Section>
+      <Section id="project">
+        <Project3 />
+      </Section>
+      <Section id="project">
+        <Project4 />
+      </Section>
+      <Section id="Contact">
+        <Contact />
       </Section>
       {/* <SideBar /> */}
     </PageContainer>
