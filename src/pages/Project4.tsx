@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 import prj4_1 from "../assets/img/prj4-1.png";
@@ -18,6 +17,7 @@ import {
   Tech,
 } from "../styles/ProjectsStyles";
 import styled from "styled-components";
+import { useEffect, useRef } from "react";
 
 const Project4 = () => {
   const controls = useAnimation();

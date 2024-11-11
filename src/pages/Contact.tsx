@@ -1,5 +1,3 @@
-// Contact.tsx
-import React from "react";
 import styled from "styled-components";
 import { FaGithub, FaEnvelope } from "react-icons/fa";
 import { MdContentCopy } from "react-icons/md";

@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import Profile from "../assets/img/ME-gray.png";

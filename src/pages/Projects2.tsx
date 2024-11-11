@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useAnimation } from "framer-motion";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import prj2 from "../assets/img/prj2.png";
