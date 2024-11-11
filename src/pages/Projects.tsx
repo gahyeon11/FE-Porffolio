@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Project1 from "./Project1";
-import Project2 from "./Projects2";
+import Project2 from "./Project2";
 
 const Projects = () => {
   return (

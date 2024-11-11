@@ -4,7 +4,7 @@ import AboutMe1 from "./AboutMe1";
 import AboutMe2 from "./AboutMe2";
 import AboutMe3 from "./AboutMe3";
 import Project1 from "./Project1";
-import Project2 from "./Projects2";
+import Project2 from "./Project2";
 import Project3 from "./Project3";
 import Project4 from "./Project4";
 import Contact from "./Contact";
