@@ -41,7 +41,7 @@ function Home() {
                 delay: index * 0.5,
               }}
               size={line.size}
-              style={{ marginLeft: line.marginLeft || 0 }} // marginLeft 적용
+              marginLeft={line.marginLeft} // marginLeft 적용
               onAnimationComplete={() => index === 1 && setShowNewText(true)}
             >
               {line.text}
@@ -142,12 +142,13 @@ const AnimatedTextContainer = styled.div`
   }
 `;
 
-const AnimatedText = styled(motion.div)<{ size: string }>`
+const AnimatedText = styled(motion.div)<{ size: string; marginLeft?: string }>`
   font-size: ${({ size }) => size};
   font-weight: bold;
   display: inline-block;
   min-width: fit-content;
   text-align: center;
+  margin-left: ${({ marginLeft }) => marginLeft || "0px"}; /* Default to 0 if undefined */
 
   @media (max-width: 768px) {
     font-size: ${({ theme, size }) =>
@@ -156,6 +157,7 @@ const AnimatedText = styled(motion.div)<{ size: string }>`
         : size === "25px"
         ? theme.responsiveTitle.title3
         : theme.responsiveText.text1};
+    margin-left: 0; /* Set marginLeft to 0 on mobile */
   }
 `;
 
