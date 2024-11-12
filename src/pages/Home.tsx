@@ -41,7 +41,8 @@ function Home() {
                 delay: index * 0.5,
               }}
               size={line.size}
-              marginLeft={line.marginLeft} // marginLeft 적용
+              marginLeft={line.marginLeft} // Pass marginLeft prop here
+              text={line.text}
               onAnimationComplete={() => index === 1 && setShowNewText(true)}
             >
               {line.text}
@@ -119,7 +120,7 @@ const HomeStyle = styled(motion.div)`
   text-align: center;
 
   @media (max-width: 768px) { /* Mobile view adjustments */
-    padding: 10px;
+    padding: 10px 0;
     gap: 15px; /* Reduce gap for smaller screens */
   }
 `;
@@ -141,25 +142,27 @@ const AnimatedTextContainer = styled.div`
     /* max-width: 100%; */
   }
 `;
-
-const AnimatedText = styled(motion.div)<{ size: string; marginLeft?: string }>`
+const AnimatedText = styled(motion.div)<{ size: string; marginLeft?: string; text: string }>`
   font-size: ${({ size }) => size};
   font-weight: bold;
   display: inline-block;
   min-width: fit-content;
   text-align: center;
-  margin-left: ${({ marginLeft }) => marginLeft || "0px"}; /* Default to 0 if undefined */
+  margin-left: ${({ marginLeft }) => marginLeft || "0px"}; /* 기본 marginLeft 값 */
 
   @media (max-width: 768px) {
-    font-size: ${({ theme, size }) =>
-      size === "32px"
-        ? theme.responsiveTitle.title2
+    font-size: ${({ text, theme, size }) =>
+      text === "프론트엔드 개발자"
+        ? theme.responsiveTitle.title3
         : size === "25px"
         ? theme.responsiveTitle.title3
-        : theme.responsiveText.text1};
-    margin-left: 0; /* Set marginLeft to 0 on mobile */
+        : theme.responsiveText.title4};
+        
+    margin-left: ${({ text }) =>
+      text === "프론트엔드 개발자" ? "4px" : text === "안녕하세요." ? "-10px" : "0px"};
   }
 `;
+
 
 
 const ReplacementText = styled(motion.span)`
@@ -177,5 +180,6 @@ const ReplacementText = styled(motion.span)`
     align-items: center; /* Center-align on mobile */
     /* position: relative; */
     /* left: 0; */
+    margin-left: 2px;
   }
 `;
