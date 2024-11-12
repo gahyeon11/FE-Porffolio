@@ -16,6 +16,7 @@ import {
   DetailItem,
   TechStack,
   Tech,
+  EmphasizedText,
 } from "../styles/ProjectsStyles";
 
 const Project2 = () => {
@@ -86,14 +87,14 @@ const Project2 = () => {
         <DetailTitle>프로젝트 기여 내용</DetailTitle>
         <Details>
           <DetailItem>
-            1. 전반적인 페이지 디자인
+            <EmphasizedText>1. 전반적인 페이지 디자인 </EmphasizedText>
             <br />
             사용자가 직관적이고 쉽게 사이트를 이용할 수 있도록 사용자 경험을
             중점적으로 고려하여 전체 페이지의 인터페이스 디자인을
             담당하였습니다.
           </DetailItem>
           <DetailItem>
-            2. 메인 페이지
+            <EmphasizedText>2. 메인 페이지 </EmphasizedText>
             <br />
             어휘 퀴즈 사이트의 첫인상을 결정짓는 메인 페이지의 UI와 기능을
             설계하고 구현하였습니다. <br />
@@ -103,41 +104,43 @@ const Project2 = () => {
             정보를 효율적으로 보일 수 있도록 구현 하였습니다.
           </DetailItem>
           <DetailItem>
-            3. 퀴즈 결과 페이지 <br /> 사용자가 퀴즈를 완료한 후, 결과를 한눈에
-            확인할 수 있는 UI를 설계하였습니다. <br />
+            <EmphasizedText>3. 퀴즈 결과 페이지 </EmphasizedText> <br />{" "}
+            사용자가 퀴즈를 완료한 후, 결과를 한눈에 확인할 수 있는 UI를
+            설계하였습니다. <br />
             퀴즈 점수, 맞춘 단어 수, 틀린 단어 등에 대한 정보를 시각적으로 쉽게
             파악할 수 있도록 구성하였으며, 결과에 따라 랭킹 시스템과 연결되는
             기능을 구현하였습니다.
           </DetailItem>
           <DetailItem>
-            4. 마이페이지 <br />
+            <EmphasizedText>4. 마이페이지 </EmphasizedText> <br />
             사용자가 자신의 퀴즈 기록 및 랭킹, 설정 등을 확인하고 관리할 수 있는
             마이페이지 UI를 구현하였습니다. <br />
             사용자 맞춤형 정보를 제공하기 위해 직관적인 인터페이스와 기능을
             배치하였으며, 사용자의 퀴즈 통계 및 정보 관리 기능을 추가하였습니다.
           </DetailItem>
           <DetailItem>
-            5. 비밀번호 재설정 페이지
+            <EmphasizedText>5. 비밀번호 재설정 페이지 </EmphasizedText>
             <br /> 사용자가 비밀번호를 재설정할 수 있는 페이지를 구현하였습니다.
             비밀번호 재설정 과정이 복잡하지 않도록 직관적이고 단순한 UI를
             설계하고, 사용자 경험을 개선하기 위한 로직을 포함하였습니다.
           </DetailItem>
           <DetailItem>
-            6. 상태 관리 <br />
+            <EmphasizedText>6. 상태 관리 </EmphasizedText> <br />
             사용자 로그인 상태를 관리하기 위해 Zustand를 활용한 상태 관리 로직을
             구현하였습니다. <br />
             상태 관리를 통해 각 페이지가 사용자별로 적절한 데이터를 표시할 수
             있도록 하여 일관된 사용자 경험을 제공하였습니다.
           </DetailItem>
           <DetailItem>
-            7.에러 핸들링 <br /> 예상치 못한 에러 발생 시에도 사용자 경험이
-            방해받지 않도록 Error Boundary 적용하여 방어 로직을 구현하였습니다.
+            <EmphasizedText>7.에러 핸들링 </EmphasizedText>
+            <br /> 예상치 못한 에러 발생 시에도 사용자 경험이 방해받지 않도록
+            Error Boundary 적용하여 방어 로직을 구현하였습니다.
             <br />
             에러가 발생하면 사용자에게 적절한 알림을 제공하고, 앱이 중단되지
             않도록 에러 처리 방식을 설계하였습니다.
           </DetailItem>
           <DetailItem>
-            8. 성능 최적화 <br />
+            <EmphasizedText>8. 성능 최적화 </EmphasizedText> <br />
             Lighthouse 를 사용하여 페이지 성능을 분석하고, 이를 기반으로 최적화
             작업을 수행하였습니다. <br />
             페이지 로딩 속도, 인터랙션 성능 등을 향상시켜 사용자 경험을

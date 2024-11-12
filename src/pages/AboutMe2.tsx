@@ -49,17 +49,28 @@ const Title = styled.h2`
 
 const EducationContainer = styled.div`
   display: flex;
-  gap: 60px;
+  gap: 80px;
   justify-content: center;
 `;
 
 const EducationCard = styled.div`
-  background: #DAD7D7;
+  /* background: #DAD7D7;
   padding: 30px 80px;
   border-radius: 20px;
   box-shadow: 2px 6px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
-  min-width: 150px;
+  min-width: 150px; */
+
+  align-items: center; 
+  background: #f9f9f9;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  gap: 60px;
+  /* margin: 25px auto; */
+  max-width: 1200px;
+  text-align: center;
+
 
   span {
     display: block;

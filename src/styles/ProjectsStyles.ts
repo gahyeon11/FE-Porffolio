@@ -1,20 +1,5 @@
 import styled from "styled-components";
 
-// export const MainContainer = styled.div`
-//   padding: 40px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// `;
-
-// export const SectionContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 40px;
-//   width: 100%;
-//   max-width: 1200px;
-// `;
-
 export const ProjectContent = styled.div`
   display: flex;
   align-items: center; // Vertically center items within ProjectContent
@@ -25,6 +10,13 @@ export const ProjectContent = styled.div`
   gap: 20px;
   margin: 25px auto;
   max-width: 1200px;
+  @media (max-width: 768px) { /* Mobile view adjustments */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    margin: 20px;
+  }
 `;
 
 export const ImageContainer = styled.div`
@@ -67,6 +59,7 @@ export const ProjectTitle = styled.h3`
   font-weight: bold;
   color: #333;
   text-align: center;
+
 `;
 
 export const ProjectDate = styled.span`
@@ -85,6 +78,8 @@ export const Description = styled.p`
   font-size: 14px;
   color: #555;
   line-height: 1.8;
+  @media (max-width: 768px){
+    font-size: 12px;}
 `;
 
 export const DetailTitle = styled.p`
@@ -92,6 +87,8 @@ export const DetailTitle = styled.p`
   font-weight: bold;
   color: #2e2e2e;
   line-height: 1.8;
+  @media (max-width: 768px){
+    font-size: 14px;}
 `;
 
 export const Details = styled.ul`
@@ -99,13 +96,21 @@ export const Details = styled.ul`
   font-size: 14px;
   color: #555;
   line-height: 1.8;
-  
+  @media (max-width: 768px){
+    font-size: 12px;}
 `;
 
 export const DetailItem = styled.li`
   margin-bottom: 10px;
   line-height: 1.8;
+  @media (max-width: 768px){
+    font-size: 12px;}
+`;
 
+export const EmphasizedText = styled.span`
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0px 4px;
 `;
 
 export const TechStack = styled.div`

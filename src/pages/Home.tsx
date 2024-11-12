@@ -11,8 +11,8 @@ function Home() {
 
   const textLines = [
     { text: "안녕하세요.", x: 0, y: -40, size: "20px" },
-    { text: "프론트엔드 개발자", x: 0, y: 60, size: "32px", isMoving: true, marginLeft: "35px" }, // marginLeft 추가
-    { text: "김가현입니다.", x: 0, y: 110, size: "25px" , marginLeft: "8px"},
+    { text: "프론트엔드 개발자", x: 0, y: 60, size: "32px", isMoving: true, marginLeft: "32px" }, // marginLeft 추가
+    { text: "김가현입니다.", x: 0, y: 110, size: "25px" , marginLeft: "7px"},
   ];
 
   return (
@@ -69,26 +69,77 @@ function Home() {
 
 export default Home;
 
+// const HomeStyle = styled(motion.div)`
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   height: 100vh;
+//   overflow: hidden;
+//   padding: 20px;
+//   gap: 30px;
+//   margin: 0 auto;
+// `;
+
+// const AnimatedTextContainer = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-start;
+//   width: 100%;
+//   max-width: 500px;
+//   position: relative;
+//   text-align: left;
+// `;
+
+// const AnimatedText = styled(motion.div)<{ size: string }>`
+//   font-size: ${({ size }) => size};
+//   font-weight: bold;
+//   display: inline-block;
+//   min-width: fit-content;
+//   text-align: left;
+// `;
+
+// const ReplacementText = styled(motion.span)`
+//   font-size: 32px;
+//   font-weight: bold;
+//   color: ${({ theme }) => theme.color.primary};
+//   position: absolute;
+//   left: -27px;
+// `;
 const HomeStyle = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  overflow: hidden;
+  /* overflow: hidden; */
   padding: 20px;
   gap: 30px;
   margin: 0 auto;
+  text-align: center;
+
+  @media (max-width: 768px) { /* Mobile view adjustments */
+    padding: 10px;
+    gap: 15px; /* Reduce gap for smaller screens */
+  }
 `;
 
 const AnimatedTextContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: start;
   width: 100%;
   max-width: 500px;
   position: relative;
-  text-align: left;
+  text-align: center; /* Center text within each line */
+
+  @media (max-width: 768px) {
+    justify-content: start;
+    /* max-width: 100%; */
+    padding: 10px;
+    gap: 15px;
+    /* max-width: 100%; */
+  }
 `;
 
 const AnimatedText = styled(motion.div)<{ size: string }>`
@@ -96,13 +147,33 @@ const AnimatedText = styled(motion.div)<{ size: string }>`
   font-weight: bold;
   display: inline-block;
   min-width: fit-content;
-  text-align: left;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme, size }) =>
+      size === "32px"
+        ? theme.responsiveTitle.title2
+        : size === "25px"
+        ? theme.responsiveTitle.title3
+        : theme.responsiveText.text1};
+  }
 `;
+
 
 const ReplacementText = styled(motion.span)`
   font-size: 32px;
   font-weight: bold;
   color: ${({ theme }) => theme.color.primary};
   position: absolute;
-  left: -27px;
+  left: -30px;
+  
+
+  @media (max-width: 768px) {
+    font-size: ${({ theme }) => theme.responsiveTitle.title3};
+    max-width: 100%;
+    flex-direction: column; /* Stack text vertically on smaller screens */
+    align-items: center; /* Center-align on mobile */
+    /* position: relative; */
+    /* left: 0; */
+  }
 `;

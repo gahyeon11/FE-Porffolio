@@ -4,7 +4,7 @@ import html from "../assets/icons/html.png";
 import css from "../assets/icons/css.png";
 import js from "../assets/icons/js.png";
 import ts from "../assets/icons/ts.png";
-import react from "../assets/icons/react.png";
+import react from "../assets/icons/image.png";
 import RN from "../assets/icons/RN.png";
 import python from "../assets/icons/python.png";
 import java from "../assets/icons/java.png";
