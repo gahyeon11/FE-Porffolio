@@ -4,26 +4,26 @@ import styled from "styled-components";
 const AboutMe2 = () => {
   return (
     <div id="aboutme" style={{ minHeight: "100vh" }}>
-    <SectionContainer
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      <Title>EDUCATION</Title>
-      <EducationContainer>
-        <EducationCard>
-          <span>덕성여자대학교</span>
-          <span>IT미디어공학과</span>
-          <span>2020.02 - 2025.02</span>
-        </EducationCard>
-        <EducationCard>
-          <span>프로그래머스</span>
-          <span>웹 풀사이클 데브코스</span>
-          <span>2024.02 - 2024.09</span>
-        </EducationCard>
-      </EducationContainer>
-    </SectionContainer>
+      <SectionContainer
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Title>EDUCATION</Title>
+        <EducationContainer>
+          <EducationCard>
+            <span>덕성여자대학교</span>
+            <span>IT미디어공학과</span>
+            <span>2020.02 - 2025.02</span>
+          </EducationCard>
+          <EducationCard>
+            <span>프로그래머스</span>
+            <span>웹 풀사이클 데브코스</span>
+            <span>2024.02 - 2024.09</span>
+          </EducationCard>
+        </EducationContainer>
+      </SectionContainer>
     </div>
   );
 };
@@ -51,8 +51,12 @@ const EducationContainer = styled.div`
   display: flex;
   gap: 80px;
   justify-content: center;
-`;
 
+  @media (max-width: 768px) {
+    gap: 40px;
+    align-items: center;
+  }
+`;
 const EducationCard = styled.div`
   /* background: #DAD7D7;
   padding: 30px 80px;
@@ -61,7 +65,7 @@ const EducationCard = styled.div`
   text-align: center;
   min-width: 150px; */
 
-  align-items: center; 
+  align-items: center;
   background: #f9f9f9;
   padding: 40px;
   border-radius: 8px;
@@ -70,7 +74,6 @@ const EducationCard = styled.div`
   /* margin: 25px auto; */
   max-width: 1200px;
   text-align: center;
-
 
   span {
     display: block;
