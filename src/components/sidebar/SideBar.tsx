@@ -1,83 +1,66 @@
-import { ReactNode } from "react";
+// Sidebar.tsx
+
 import styled from "styled-components";
-import { NavLink, NavLinkProps } from "react-router-dom";
-import useActiveSection from "../../hooks/useActiveSection";
+import React from "react";
 
-function SideBar() {
-  const sectionIds = ["home", "aboutme", "project", "contact"];
-  const activeSection = useActiveSection(sectionIds);
+interface SidebarProps {
+  currentSection: string;
+}
 
+function Sidebar({ currentSection }: SidebarProps) {
   return (
-    <SideBarWrapper>
-      <SidebarItem to="/home" isActive={activeSection === "home"}>
-        HOME
-      </SidebarItem>
-      <SidebarItem to="/aboutme" isActive={activeSection === "aboutme"}>
-        ABOUT ME
-      </SidebarItem>
-      <SidebarItem to="/project" isActive={activeSection === "project"}>
-        PROJECT
-      </SidebarItem>
-      <SidebarItem to="/contact" isActive={activeSection === "contact"}>
-        CONTACT
-      </SidebarItem>
-    </SideBarWrapper>
+    <SidebarContainer>
+      <NavItem href="#aboutme" isActive={currentSection === "aboutme"}>
+        {splitText("About Me")}
+      </NavItem>
+      <NavItem href="#project" isActive={currentSection === "project"}>
+        {splitText("Projects")}
+      </NavItem>
+      <NavItem href="#contact" isActive={currentSection === "contact"}>
+        {splitText("Contact")}
+      </NavItem>
+    </SidebarContainer>
   );
 }
 
-export default SideBar;
+// Helper function to split text into vertical letters
+function splitText(text: string) {
+  return text.split("").map((char, index) => (
+    <span key={index} style={{ display: "block" }}>
+      {char}
+    </span>
+  ));
+}
 
-const SideBarWrapper = styled.div`
-  width: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100vh;
-  padding-top: 20px;
-  background: transparent; /* 배경 제거 */
-  z-index: 10; /* 다른 콘텐츠 위에 표시되도록 설정 */
-`;
+export default Sidebar;
 
-interface SidebarItemProps extends NavLinkProps {
-  children: ReactNode;
+interface NavItemProps {
   isActive: boolean;
 }
 
-const SidebarItem = ({ children, to, isActive }: SidebarItemProps) => (
-  <StyledNavLink to={to} className={isActive ? "active" : ""}>
-    {String(children)
-      .split("")
-      .map((char: string, index: number) => (
-        <span key={index}>{char}</span>
-      ))}
-  </StyledNavLink>
-);
-
-const StyledNavLink = styled(NavLink)`
-  font-size: 12px;
-  font-weight: bold;
-  margin: 20px 0;
-  text-decoration: none;
-  transition: color 0.3s ease;
+const SidebarContainer = styled.div`
+  position: fixed;
+  right: 10px;
+  top: 15%;
+  width: 30px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #b3b3b3;
+  padding: 10px;
+  box-sizing: border-box;
+  /* background-color: #f8f9fa; */
+`;
 
-  &.active {
-    color: #006ad7;
-  }
-
-  span {
-    display: block;
-    line-height: 1.2em;
-  }
-
+const NavItem = styled.a<NavItemProps>`
+  margin: 20px 0;
+  color: ${(props) => (props.isActive ? props.theme.color.primary : "black")};
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+  text-align: center;
+  
   &:hover {
-    color: ${({ theme }) => theme.color.primary};
+    color: ${(props) => props.theme.color.primary};
   }
 `;
