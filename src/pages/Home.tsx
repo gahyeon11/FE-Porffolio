@@ -8,7 +8,7 @@ function Home() {
   const isIntersecting = useIntersectionObserver(mainRef);
 
   const [showNewText, setShowNewText] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // 초기 화면 크기 판단
+  const isMobile = window.innerWidth <= 768; // 즉시 계산
 
   // 화면 크기 변경 감지
   useEffect(() => {
