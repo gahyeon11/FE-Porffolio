@@ -17,6 +17,7 @@ const AboutMe3 = () => {
   const sectionRef = useRef(null); // 섹션 참조
 
   useEffect(() => {
+    const currentRef = sectionRef.current; // ref 값을 변수에 저장
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -25,14 +26,14 @@ const AboutMe3 = () => {
       },
       { threshold: 0.3 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+  
+    if (currentRef) {
+      observer.observe(currentRef);
     }
-
+  
     return () => {
-      if (sectionRef.current) {
-        observer.disconnect();
+      if (currentRef) {
+        observer.unobserve(currentRef); // cleanup에서 저장된 변수 사용
       }
     };
   }, [controls]);
