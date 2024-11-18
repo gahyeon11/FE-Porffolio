@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import useIntersectionObserver from "../hooks/useIntersectionObserver";
@@ -8,12 +8,36 @@ function Home() {
   const isIntersecting = useIntersectionObserver(mainRef);
 
   const [showNewText, setShowNewText] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // 초기 화면 크기 판단
 
-  const textLines = [
-    { text: "안녕하세요.", x: 0, y: -40, size: "20px" },
-    { text: "프론트엔드 개발자", x: 0, y: 60, size: "32px", isMoving: true, marginLeft: "32px" }, // marginLeft 추가
-    { text: "김가현입니다.", x: 0, y: 110, size: "25px" , marginLeft: "7px"},
-  ];
+  // 화면 크기 변경 감지
+  useEffect(() => {
+    const handleResize = () => {
+      const isNowMobile = window.innerWidth <= 768;
+      if (isNowMobile !== isMobile) {
+        window.location.reload(); // 화면 크기 변경 시 새로고침
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [isMobile]);
+
+  // 모든 텍스트 (모바일 포함)
+  const textLines = isMobile
+    ? [
+        { text: "안녕하세요.", size: "25px"},
+        { text: "끊임없이 발전하는", size: "32px" },
+        { text: "프론트엔드 개발자", size: "32px" },
+        { text: "김가현입니다.", size: "25px" },
+      ]
+    : [
+        { text: "안녕하세요.", size: "20px" },
+        { text: "프론트엔드 개발자", size: "32px", isMoving: true },
+        { text: "김가현입니다.", size: "25px" },
+      ];
 
   return (
     <motion.div
@@ -27,12 +51,16 @@ function Home() {
         {textLines.map((line, index) => (
           <AnimatedTextContainer key={index}>
             <AnimatedText
-              initial={{ opacity: 0, x: line.x, y: line.y, scale: 0.1 }}
+              initial={{ opacity: 0, y: isMobile ? 30 : 0 }}
               animate={{
                 opacity: 1,
-                x: showNewText && line.isMoving ? 280 : 0, // 오른쪽으로 이동
                 y: 0,
-                scale: 1.5,
+                x: isMobile
+                  ? 0
+                  : showNewText && line.isMoving
+                  ? 270 // 데스크탑: 오른쪽으로 이동
+                  : 0,
+                scale: isMobile ? 1 : 1.5,
               }}
               transition={{
                 type: "spring",
@@ -41,13 +69,12 @@ function Home() {
                 delay: index * 0.5,
               }}
               size={line.size}
-              marginLeft={line.marginLeft} // Pass marginLeft prop here
               text={line.text}
-              onAnimationComplete={() => index === 1 && setShowNewText(true)}
+              onAnimationComplete={() => !isMobile && index === 1 && setShowNewText(true)} // 데스크탑: 상태 변경
             >
               {line.text}
             </AnimatedText>
-            {line.isMoving && showNewText && (
+            {!isMobile && line.isMoving && showNewText && (
               <ReplacementText
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -70,116 +97,63 @@ function Home() {
 
 export default Home;
 
-// const HomeStyle = styled(motion.div)`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   height: 100vh;
-//   overflow: hidden;
-//   padding: 20px;
-//   gap: 30px;
-//   margin: 0 auto;
-// `;
-
-// const AnimatedTextContainer = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: flex-start;
-//   width: 100%;
-//   max-width: 500px;
-//   position: relative;
-//   text-align: left;
-// `;
-
-// const AnimatedText = styled(motion.div)<{ size: string }>`
-//   font-size: ${({ size }) => size};
-//   font-weight: bold;
-//   display: inline-block;
-//   min-width: fit-content;
-//   text-align: left;
-// `;
-
-// const ReplacementText = styled(motion.span)`
-//   font-size: 32px;
-//   font-weight: bold;
-//   color: ${({ theme }) => theme.color.primary};
-//   position: absolute;
-//   left: -27px;
-// `;
+// 스타일 정의
 const HomeStyle = styled(motion.div)`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: center; /* 텍스트를 수평 중앙으로 */
+  justify-content: center; /* 텍스트를 수직 중앙으로 */
   height: 100vh;
-  /* overflow: hidden; */
   padding: 20px;
   gap: 30px;
   margin: 0 auto;
-  text-align: center;
+  text-align: left; /* 텍스트는 왼쪽 정렬 */
 
-  @media (max-width: 768px) { /* Mobile view adjustments */
-    padding: 10px 0;
-    gap: 15px; /* Reduce gap for smaller screens */
+  @media (max-width: 768px) {
+    gap: 10px;
+    padding: 10px;
   }
 `;
 
-const AnimatedTextContainer = styled.div`
+const AnimatedTextContainer = styled.div<{ margin?: string }>`
   display: flex;
-  align-items: center;
-  justify-content: start;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
   width: 100%;
   max-width: 500px;
-  position: relative;
-  text-align: center; /* Center text within each line */
-
+  /* margin: ${({ margin }) => margin || "0"};  */
   @media (max-width: 768px) {
-    justify-content: start;
-    /* max-width: 100%; */
     padding: 10px;
-    gap: 15px;
-    /* max-width: 100%; */
   }
 `;
-const AnimatedText = styled(motion.div)<{ size: string; marginLeft?: string; text: string }>`
+
+const AnimatedText = styled(motion.div)<{ size: string;margin?: string; text: string  }>`
   font-size: ${({ size }) => size};
   font-weight: bold;
-  display: inline-block;
-  min-width: fit-content;
-  text-align: center;
-  margin-left: ${({ marginLeft }) => marginLeft || "0px"}; /* 기본 marginLeft 값 */
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  margin-left: ${({ text }) =>
+      text === "프론트엔드 개발자" ? "28px" : text === "안녕하세요." ? "-6px" : "0px"};
 
   @media (max-width: 768px) {
-    font-size: ${({ text, theme, size }) =>
-      text === "프론트엔드 개발자"
-        ? theme.responsiveTitle.title3
-        : size === "25px"
-        ? theme.responsiveTitle.title3
-        : theme.responsiveText.title4};
-        
+    font-size: ${({ size }) => size};
     margin-left: ${({ text }) =>
-      text === "프론트엔드 개발자" ? "4px" : text === "안녕하세요." ? "-10px" : "0px"};
+      text === "프론트엔드 개발자" ? "0px" : text === "안녕하세요." ? "0px" : "0px"};
+    color: ${({ text, theme }) =>
+      text === "끊임없이 발전하는" ? theme.color.primary : theme.color.black};
   }
 `;
-
-
 
 const ReplacementText = styled(motion.span)`
   font-size: 32px;
   font-weight: bold;
   color: ${({ theme }) => theme.color.primary};
-  position: absolute;
-  left: -30px;
-  
+  /* position: absolute; */
+  /* left: 10px; */
+  margin-left: -35px;
+  margin-top: -40px; 
 
   @media (max-width: 768px) {
-    font-size: ${({ theme }) => theme.responsiveTitle.title3};
-    max-width: 100%;
-    flex-direction: column; /* Stack text vertically on smaller screens */
-    align-items: center; /* Center-align on mobile */
-    /* position: relative; */
-    /* left: 0; */
-    margin-left: 2px;
+    display: none; /* 모바일에서는 ReplacementText 비활성화 */
   }
 `;

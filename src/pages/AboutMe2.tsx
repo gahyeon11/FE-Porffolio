@@ -53,7 +53,7 @@ const EducationContainer = styled.div`
   justify-content: center;
 
   @media (max-width: 768px) {
-    gap: 40px;
+    gap: 15px;
     align-items: center;
   }
 `;

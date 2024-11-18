@@ -16,8 +16,12 @@ const AboutMe1 = () => {
           <TitlePrimary>끊임없이 발전하는</TitlePrimary>
           <TitleSecondary>프론트엔드 개발자 김가현입니다.</TitleSecondary>
           <Description>
-            <DescriptionLine>배움의 즐거움을 아는 소통하는 개발자입니다.</DescriptionLine>
-            <DescriptionLine>새로운 도전을 두려워하지 않습니다.</DescriptionLine>
+            <DescriptionLine>
+              배움의 즐거움을 아는 소통하는 개발자입니다.
+            </DescriptionLine>
+            <DescriptionLine>
+              새로운 도전을 두려워하지 않습니다.
+            </DescriptionLine>
             <DescriptionLine>사용자 입장에서 생각합니다.</DescriptionLine>
           </Description>
         </TextContainer>
@@ -36,6 +40,14 @@ const SectionContainer = styled(motion.div)`
   padding: 20px;
   box-sizing: border-box;
   width: 100%;
+
+  position: relative; /* Profile 이미지와 텍스트를 겹치기 위해 */
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 10px;
+  }
 `;
 
 const ProfileContainer = styled.div`
@@ -45,7 +57,25 @@ const ProfileContainer = styled.div`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  mask-image: linear-gradient(to right, transparent, black 30%, black 70%, transparent);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 30%,
+    black 70%,
+    transparent
+  );
+
+  opacity: 1; /* 기본 데스크탑 투명도 */
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3; /* 모바일에서 아주 옅게 표시 */
+    filter: blur(2.5px); /* 약간 흐릿하게 표시 */
+  }
 `;
 
 const TextContainer = styled.div`

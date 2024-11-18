@@ -65,6 +65,10 @@ const Content = styled.div`
   display: flex;
   gap: 100px;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    gap: 10%;
+  }
 `;
 
 const ContactItem = styled.div`
