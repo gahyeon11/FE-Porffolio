@@ -1,17 +1,41 @@
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import styled from "styled-components";
+import { useEffect, useRef } from "react";
 import Profile from "../assets/img/me 1.png";
 
 const AboutMe1 = () => {
+  const controls = useAnimation(); // 애니메이션 제어 훅
+  const ref = useRef(null);
+
+  const isMobile = window.innerWidth <= 768; // 모바일 환경 판단
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          controls.start("visible"); // 뷰포트에 들어오면 애니메이션 실행
+        }
+      },
+      { threshold: 0.3 } // 요소의 30%가 화면에 보일 때 트리거
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => observer.disconnect();
+  }, [controls]);
+
   return (
     <div id="aboutme" style={{ minHeight: "100vh" }}>
       <SectionContainer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        ref={ref}
+        initial="hidden"
+        animate={controls}
+        exit="hidden"
+        variants={isMobile ? mobileContainerVariants : containerVariants}
       >
-        <ProfileContainer />
+        <ProfileContainer
+          variants={isMobile ? mobileImageVariants : imageVariants}
+        />
         <TextContainer>
           <TitlePrimary>끊임없이 발전하는</TitlePrimary>
           <TitleSecondary>프론트엔드 개발자 김가현입니다.</TitleSecondary>
@@ -32,6 +56,28 @@ const AboutMe1 = () => {
 
 export default AboutMe1;
 
+// 애니메이션 Variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.8, ease: "easeInOut" } },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: { opacity: 1, scale: 1, transition: { duration: 1, ease: "easeInOut" } },
+};
+
+const mobileContainerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.5, ease: "easeOut" } },
+};
+
+const mobileImageVariants = {
+  hidden: { opacity: 0.2 }, // 모바일 환경에서 낮은 투명도
+  visible: { opacity: 0.2 }, // 항상 일정하게 유지
+};
+
+// 스타일 정의
 const SectionContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
@@ -40,8 +86,7 @@ const SectionContainer = styled(motion.div)`
   padding: 20px;
   box-sizing: border-box;
   width: 100%;
-
-  position: relative; /* Profile 이미지와 텍스트를 겹치기 위해 */
+  position: relative;
   overflow: hidden;
 
   @media (max-width: 768px) {
@@ -50,7 +95,7 @@ const SectionContainer = styled(motion.div)`
   }
 `;
 
-const ProfileContainer = styled.div`
+const ProfileContainer = styled(motion.div)`
   flex: 1;
   height: 100vh;
   background-image: url(${Profile});
@@ -64,8 +109,7 @@ const ProfileContainer = styled.div`
     black 70%,
     transparent
   );
-
-  opacity: 1; /* 기본 데스크탑 투명도 */
+  transition: opacity 0.5s ease;
 
   @media (max-width: 768px) {
     position: absolute;
@@ -73,8 +117,7 @@ const ProfileContainer = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.3; /* 모바일에서 아주 옅게 표시 */
-    filter: blur(2.5px); /* 약간 흐릿하게 표시 */
+    filter: blur(1px); /* 약간 흐릿하게 */
   }
 `;
 
@@ -114,7 +157,7 @@ const DescriptionLine = styled.span`
   padding-left: 24px;
 
   &::before {
-    content: "✅"; // 아이폰 체크 이모지 추가
+    content: "✅";
     position: absolute;
     left: 0;
     top: 0;

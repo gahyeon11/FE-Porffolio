@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import html from "../assets/icons/html.png";
 import css from "../assets/icons/css.png";
@@ -12,61 +13,57 @@ import node from "../assets/icons/node.png";
 import c from "../assets/icons/c.png";
 
 const AboutMe3 = () => {
+  const controls = useAnimation(); // Framer Motion 애니메이션 제어
+  const sectionRef = useRef(null); // 섹션 참조
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          controls.start("visible");
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.disconnect();
+      }
+    };
+  }, [controls]);
+
   return (
-    <div id="aboutme" style={{ minHeight: "100vh" }}>
+    <div id="aboutme" style={{ minHeight: "100vh" }} ref={sectionRef}>
       <SectionContainer
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
+        initial="hidden"
+        animate={controls}
+        variants={sectionVariants}
         transition={{ duration: 0.5 }}
       >
         <Title>SKILL</Title>
-        <SkillCategory>familiar</SkillCategory>
+        <SkillCategory>Familiar</SkillCategory>
         <SkillContainer>
-          <SkillIconContainer>
-            <SkillIcon src={html} alt="HTML" />
-            <SkillName>HTML</SkillName>
-          </SkillIconContainer>
-          <SkillIconContainer>
-            <SkillIcon src={css} alt="CSS" />
-            <SkillName>CSS</SkillName>
-          </SkillIconContainer>
-          <SkillIconContainer>
-            <SkillIcon src={js} alt="JavaScript" />
-            <SkillName>JavaScript</SkillName>
-          </SkillIconContainer>
-          <SkillIconContainer>
-            <SkillIcon src={ts} alt="TypeScript" />
-            <SkillName>TypeScript</SkillName>
-          </SkillIconContainer>
-          <SkillIconContainer>
-            <SkillIcon src={react} alt="React" />
-            <SkillName>React</SkillName>
-          </SkillIconContainer>
-          <SkillIconContainer>
-            <SkillIcon src={RN} alt="React Native" />
-            <SkillName>React Native</SkillName>
-          </SkillIconContainer>
+          {familiarSkills.map((skill) => (
+            <SkillIconContainer key={skill.name}>
+              <SkillIcon src={skill.icon} alt={skill.name} />
+              <SkillName>{skill.name}</SkillName>
+            </SkillIconContainer>
+          ))}
         </SkillContainer>
 
-        <SkillCategory>tried</SkillCategory>
+        <SkillCategory>Tried</SkillCategory>
         <SkillContainer>
-          <SkillIconContainer>
-            <SkillIcon src={python} alt="Python" />
-            <SkillName>Python</SkillName>
-          </SkillIconContainer>
-          <SkillIconContainer>
-            <SkillIcon src={java} alt="Java" />
-            <SkillName>Java</SkillName>
-          </SkillIconContainer>
-          <SkillIconContainer>
-            <SkillIcon src={c} alt="C++" />
-            <SkillName>C / C++</SkillName>
-          </SkillIconContainer>
-          <SkillIconContainer>
-            <SkillIcon src={node} alt="Node.js" />
-            <SkillName>Node.js</SkillName>
-          </SkillIconContainer>
+          {triedSkills.map((skill) => (
+            <SkillIconContainer key={skill.name}>
+              <SkillIcon src={skill.icon} alt={skill.name} />
+              <SkillName>{skill.name}</SkillName>
+            </SkillIconContainer>
+          ))}
         </SkillContainer>
       </SectionContainer>
     </div>
@@ -75,6 +72,30 @@ const AboutMe3 = () => {
 
 export default AboutMe3;
 
+// 애니메이션 variants
+const sectionVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 },
+};
+
+// 데이터 배열
+const familiarSkills = [
+  { name: "HTML", icon: html },
+  { name: "CSS", icon: css },
+  { name: "JavaScript", icon: js },
+  { name: "TypeScript", icon: ts },
+  { name: "React", icon: react },
+  { name: "React Native", icon: RN },
+];
+
+const triedSkills = [
+  { name: "Python", icon: python },
+  { name: "Java", icon: java },
+  { name: "C / C++", icon: c },
+  { name: "Node.js", icon: node },
+];
+
+// 스타일 정의
 const SectionContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
@@ -94,7 +115,6 @@ const Title = styled.h2`
 
 const SkillCategory = styled.h4`
   font-size: 16px;
-  /* font-weight: bold; */
   color: #666;
   margin: 20px 0 10px;
 `;
@@ -105,10 +125,15 @@ const SkillContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    gap: 10px;
+  }
 `;
 
 const SkillIconContainer = styled.div`
   position: relative;
+  background-color: #ffffff;
   width: 70px;
   height: 70px;
   border-radius: 8px;
@@ -146,7 +171,6 @@ const SkillName = styled.div`
   opacity: 0;
   transition: opacity 0.3s ease;
   transform: rotateY(180deg);
-  /* backface-visibility: hidden; */
 
   ${SkillIconContainer}:hover & {
     opacity: 1;
