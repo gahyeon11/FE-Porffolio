@@ -1,5 +1,5 @@
 import { motion, useAnimation } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import html from "../assets/icons/html.png";
 import css from "../assets/icons/css.png";
@@ -13,57 +13,21 @@ import node from "../assets/icons/node.png";
 import c from "../assets/icons/c.png";
 
 const AboutMe3 = () => {
-  const controls = useAnimation(); // Framer Motion 애니메이션 제어
-  const sectionRef = useRef(null); // 섹션 참조
-
-  useEffect(() => {
-    const currentRef = sectionRef.current; // ref 값을 변수에 저장
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          controls.start("visible");
-        }
-      },
-      { threshold: 0.3 }
-    );
-  
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-  
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef); // cleanup에서 저장된 변수 사용
-      }
-    };
-  }, [controls]);
-
   return (
-    <div id="aboutme" style={{ minHeight: "100vh" }} ref={sectionRef}>
-      <SectionContainer
-        initial="hidden"
-        animate={controls}
-        variants={sectionVariants}
-        transition={{ duration: 0.5 }}
-      >
+    <div id="aboutme" style={{ minHeight: "100vh" }}>
+      <SectionContainer>
         <Title>SKILL</Title>
         <SkillCategory>Familiar</SkillCategory>
         <SkillContainer>
           {familiarSkills.map((skill) => (
-            <SkillIconContainer key={skill.name}>
-              <SkillIcon src={skill.icon} alt={skill.name} />
-              <SkillName>{skill.name}</SkillName>
-            </SkillIconContainer>
+            <SkillItem key={skill.name} skill={skill} />
           ))}
         </SkillContainer>
 
         <SkillCategory>Tried</SkillCategory>
         <SkillContainer>
           {triedSkills.map((skill) => (
-            <SkillIconContainer key={skill.name}>
-              <SkillIcon src={skill.icon} alt={skill.name} />
-              <SkillName>{skill.name}</SkillName>
-            </SkillIconContainer>
+            <SkillItem key={skill.name} skill={skill} />
           ))}
         </SkillContainer>
       </SectionContainer>
@@ -71,16 +35,50 @@ const AboutMe3 = () => {
   );
 };
 
+const SkillItem = ({ skill }: { skill: Skill }) => {
+  const [isFlipped, setIsFlipped] = useState(false);
+  const controls = useAnimation();
+
+  const handleMouseEnter = () => {
+    if (!isFlipped) {
+      setIsFlipped(true);
+      controls.start({ rotateY: 180 });
+      setTimeout(() => {
+        controls.start({ rotateY: 0 });
+        setIsFlipped(false);
+      }, 2000);
+    }
+  };
+
+  return (
+    <SkillIconContainer onMouseEnter={handleMouseEnter}>
+      <SkillCard
+        as={motion.div}
+        animate={controls}
+        initial={{ rotateY: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* 앞면 */}
+        <CardFront>
+          <SkillIcon src={skill.icon} alt={skill.name} />
+        </CardFront>
+
+        {/* 뒷면 */}
+        <CardBack>
+          <SkillName>{skill.name}</SkillName>
+        </CardBack>
+      </SkillCard>
+    </SkillIconContainer>
+  );
+};
 export default AboutMe3;
 
-// 애니메이션 variants
-const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { opacity: 1, y: 0 },
-};
+interface Skill {
+  name: string;
+  icon: string;
+}
 
-// 데이터 배열
-const familiarSkills = [
+const familiarSkills: Skill[] = [
   { name: "HTML", icon: html },
   { name: "CSS", icon: css },
   { name: "JavaScript", icon: js },
@@ -89,14 +87,13 @@ const familiarSkills = [
   { name: "React Native", icon: RN },
 ];
 
-const triedSkills = [
+const triedSkills: Skill[] = [
   { name: "Python", icon: python },
   { name: "Java", icon: java },
   { name: "C / C++", icon: c },
   { name: "Node.js", icon: node },
 ];
 
-// 스타일 정의
 const SectionContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
@@ -143,37 +140,57 @@ const SkillIconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  transform: perspective(1000px);
-  transition: transform 0.5s, background 0.5s;
-
-  &:hover {
-    transform: rotateY(180deg);
-    background: rgba(0, 0, 0, 0.3);
-  }
-
-  &:hover img {
-    opacity: 0.3;
-  }
+  perspective: 1000px;
 `;
 
 const SkillIcon = styled.img`
   width: 100%;
   height: 100%;
-  transition: opacity 0.3s ease;
-  position: absolute;
-  backface-visibility: hidden;
+  /* backface-visibility: hidden; */
 `;
 
 const SkillName = styled.div`
-  position: absolute;
+  /* position: absolute;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
   opacity: 0;
-  transition: opacity 0.3s ease;
-  transform: rotateY(180deg);
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+  transform: none;  */
+  color: #323131aa;
+  font-size: 14px;
+  font-weight: bold;
+`;
 
-  ${SkillIconContainer}:hover & {
-    opacity: 1;
-  }
+const SkillCard = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const CardFront = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CardBack = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  transform: rotateY(180deg);
+  background-color: #8080804d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
 `;
